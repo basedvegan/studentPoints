@@ -10,9 +10,9 @@ class Books extends Component {
   // Setting our component's initial state
   state = {
     books: [],
-    title: "",
-    author: "",
-    synopsis: ""
+    studentname: "",
+    points: "",
+    qrcode: ""
   };
 
   // When the component mounts, load all books and save them to this.state.books
@@ -48,10 +48,20 @@ class Books extends Component {
   // Then reload books from the database
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.title && this.state.author) {
+    var json = {
+      email : "santiago@konacloud.io",
+      name : "Santiago Cotto"
+  };
+  
+    var qr = require('qr-image');
+    //var mongoose = require('mongoose');
+    var image = qr.imageSync(JSON.stringify(json), { type: 'png', size : 10 });
+  console.log(image);
+  
+    if (this.state.studentname && this.state.points) {
       API.saveBook({
-        title: this.state.title,
-        author: this.state.author,
+        studentname: this.state.studentname,
+       points: this.state.points,
         synopsis: this.state.synopsis
       })
         .then(res => this.loadBooks())
@@ -65,38 +75,32 @@ class Books extends Component {
         <Row>
           <Col size="md-6">
             <Jumbotron>
-              <h1>What Books Should I Read?</h1>
+              <h1>Add Students to Class</h1>
             </Jumbotron>
             <form>
               <Input
-                value={this.state.title}
+                value={this.state.studentname}
                 onChange={this.handleInputChange}
-                name="title"
-                placeholder="Title (required)"
+                name="studentname"
+                placeholder="Student Name"
               />
               <Input
-                value={this.state.author}
+                value={this.state.points}
                 onChange={this.handleInputChange}
-                name="author"
-                placeholder="Author (required)"
-              />
-              <TextArea
-                value={this.state.synopsis}
-                onChange={this.handleInputChange}
-                name="synopsis"
-                placeholder="Synopsis (Optional)"
+                name="points"
+                placeholder="Points"
               />
               <FormBtn
-                disabled={!(this.state.author && this.state.title)}
+                disabled={!(this.state.points && this.state.studentname)}
                 onClick={this.handleFormSubmit}
               >
-                Submit Book
+                Submit
               </FormBtn>
             </form>
           </Col>
           <Col size="md-6 sm-12">
             <Jumbotron>
-              <h1>Books On My List</h1>
+              <h1>Students in My Class</h1>
             </Jumbotron>
             {this.state.books.length ? (
               <List>
@@ -105,7 +109,7 @@ class Books extends Component {
                     <ListItem key={book._id}>
                       <a href={"/books/" + book._id}>
                         <strong>
-                          {book.title} by {book.author}
+                          {book.studentname} : {book.points} points
                         </strong>
                       </a>
                       <DeleteBtn onClick={() => this.deleteBook(book._id)} />
