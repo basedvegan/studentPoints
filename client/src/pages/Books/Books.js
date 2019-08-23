@@ -48,14 +48,6 @@ class Books extends Component {
   // Then reload books from the database
   handleFormSubmit = event => {
     event.preventDefault();
-    var qr = require('qr-image');
- 
-    var qr_svg = qr.image('I love QR!', { type: 'svg' });
-    qr_svg.pipe(require('fs').createWriteStream('i_love_qr.svg'));
-     
-    var svg_string = qr.imageSync('I love QR!', { type: 'svg' });
-    console.log(svg_string);
-
     if (this.state.studentname && this.state.points) {
       API.saveBook({
         studentname: this.state.studentname,
