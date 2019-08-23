@@ -24,7 +24,7 @@ class Books extends Component {
   loadBooks = () => {
     API.getBooks()
       .then(res =>
-        this.setState({ books: res.data, title: "", author: "", synopsis: "" })
+        this.setState({ books: res.data, title: "", author: "", qrcode: "" })
       )
       .catch(err => console.log(err));
   };
@@ -48,21 +48,29 @@ class Books extends Component {
   // Then reload books from the database
   handleFormSubmit = event => {
     event.preventDefault();
-    var json = {
-      email : "santiago@konacloud.io",
-      name : "Santiago Cotto"
-  };
+    //var json = {
+      //studentname : this.state.studentname,
+      //points : this.state.points
+  //};
   
-    var qr = require('qr-image');
+    //var qr = require('qr-image');
     //var mongoose = require('mongoose');
-    var image = qr.imageSync(JSON.stringify(json), { type: 'png', size : 10 });
-  console.log(image);
+    //var image = qr.imageSync(JSON.stringify(json), { type: 'png', size : 10 });
+  //console.log(image);
+  //var Grid = require('gridfs');
+  //var gfs = Grid(mongoose.connection.db, mongoose.mongo);
+  //var fileId = new mongoose.mongo.ObjectId();
   
+  //gfs.writeFile({_id: fileId, content_type : 'image/png'}, image, function (err, file) {
+    //console.log(file);
+    
+  //});
+
     if (this.state.studentname && this.state.points) {
       API.saveBook({
         studentname: this.state.studentname,
        points: this.state.points,
-        synopsis: this.state.synopsis
+        qrcode: this.state.image
       })
         .then(res => this.loadBooks())
         .catch(err => console.log(err));

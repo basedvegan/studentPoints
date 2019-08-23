@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const bookSchema = new Schema({
   studentname: { type: String, required: true },
   points: { type: Number, required: true },
-  synopsis: String,
+  qrcode: String,
   date: { type: Date, default: Date.now }
 });
 
