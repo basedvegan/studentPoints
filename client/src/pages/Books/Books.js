@@ -48,11 +48,27 @@ class Books extends Component {
   // Then reload books from the database
   handleFormSubmit = event => {
     event.preventDefault();
+
+
+    var QRCode = require('qrcode')
+var canvas = document.getElementById('canvas')
+
+QRCode.toCanvas(canvas, this.state.studentname, function (error) {
+  if (error) console.error(error)
+  console.log('success!');
+})
+
+    //var QRCode = require('qrcode')
+
+    //QRCode.toDataURL(this.state.studentname, function (err, qrcode) {
+      //console.log(qrcode)
+    //})
+
     if (this.state.studentname && this.state.points) {
       API.saveBook({
         studentname: this.state.studentname,
        points: this.state.points,
-        qrcode: this.state.image
+        qrcode: this.state.qrcode
       })
         .then(res => this.loadBooks())
         .catch(err => console.log(err));
@@ -80,6 +96,8 @@ class Books extends Component {
                 name="points"
                 placeholder="Points"
               />
+    <canvas id="canvas"></canvas>
+    <script src="bundle.js"></script>
               <FormBtn
                 disabled={!(this.state.points && this.state.studentname)}
                 onClick={this.handleFormSubmit}
@@ -99,7 +117,7 @@ class Books extends Component {
                     <ListItem key={book._id}>
                       <a href={"/books/" + book._id}>
                         <strong>
-                          {book.studentname} : {book.points} points
+                          {book.studentname} : {book.points} points : {book.qrcode}
                         </strong>
                       </a>
                       <DeleteBtn onClick={() => this.deleteBook(book._id)} />

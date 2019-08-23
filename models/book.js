@@ -5,7 +5,7 @@ const bookSchema = new Schema({
   studentname: { type: String, required: true },
   points: { type: Number, required: true },
   qrcode: String,
-  date: { type: Date, default: Date.now }
+  date: {type: Date, default: Date.now }
 });
 
 const Book = mongoose.model("Book", bookSchema);
